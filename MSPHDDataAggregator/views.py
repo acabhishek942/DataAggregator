@@ -11,7 +11,7 @@ from . import models
 # Create your views here.
 
 def viewGrid(request):
-	first10Students = models.Applicant.objects.all()
+	first10Students = models.Applicant.objects.all()[:10]
 	socialWorkDetails = {}
 	applicationStatusDetails = {}
 	awardsDetails = {}
