@@ -1,0 +1,104 @@
+{% load template_filters %}
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+
+</style>
+</head>
+
+<body>
+
+	<table>
+		<tr>
+	    	<th>Student Name</th>
+	    	<th>Undergrad Institute</th>
+	    	<th>Undergrad Degree</th>
+	    	<th>Undergrad Branch</th>
+	    	<th>Undergrad GPA</th>
+	    	<th>GRE Score</th>
+	    	<th>GMAT Score</th>
+	   		<th>Email</th>
+	    	<th colspan=2>Application Status</th>
+	    
+	    	<th>Awards</th>
+	    	<th>Recommendations</th>
+	    	<th>Social Work</th>
+	    	<th>Scholarship</th>	
+	  	</tr>
+	  	<tr>
+	  		<td colspan=8></td>
+	  		<td>University</td>
+	  		<td>Status</td>
+	  		<th colspan=4></th>
+	  	</tr>
+	  	{% if students %}
+	  	{% for student in students %}
+	  	
+	  		{% for appStatus in applicationStatusDetails|get_item:student.studentName %}
+	  			{% if forloop.first %}
+	  			<tr>
+	  			<td>{{ student.studentName }}</td>
+	  			<td>{{ student.undergradInstittute }}</td>
+	  			<td>{{ student.undergradDegree }}</td>
+	  			<td>{{ student.undergradBranch }}</td>
+	  			<td>{{ student.undergradGPA }}</td>
+	  			<td>{{ student.GREScore }}</td>
+	  			<td>{{ student.GMATScore }}</td>
+	  			<td>{{ student.email }}</td>
+		  		<td>{{ appStatus.applicationUniversity }}</td>
+		  		<td>{{ appStatus.applicationStatus }}</td>
+		  		<td rowspan="{{ applicationStatusDetails|length }}">
+		  			<ul>
+		  			{% for awards in awardsDetails|get_item:student.studentName %}
+		  				<li>{{ awards.award }}
+		  			{% endfor %}
+		  			</ul>
+		  		</td>
+		  		<td rowspan="{{ applicationStatusDetails|length }}">
+		  			<ul>
+		  			{% for recommendations in recommendationsDetails|get_item:student.studentName %}
+		  				<li>{{ recommendations.recommendation }}
+		  			{% endfor %}
+		  			</ul>
+		  		</td>
+		  		<td rowspan="{{ applicationStatusDetails|length }}">
+		  			<ul>
+		  			{% for works in socialWorkDetails|get_item:student.studentName %}
+		  				<li>{{ works.socialWork }}
+		  			{% endfor %}
+		  			</ul>
+		  		</td>
+		  		<td rowspan="{{ applicationStatusDetails|length }}">
+		  			<ul>
+		  			{% for scholarships in scholarshipDetails|get_item:student.studentName %}
+		  				<li>{{ scholarships.scholarship }}
+		  			{% endfor %}
+		  			</ul>
+		  		</td>
+
+		  		</tr>
+		  		{% else %}
+		  		<tr>
+	  			<td colspan=8></td>
+		  		<td> {{ appStatus.applicationUniversity }} </td> 
+		  		<td> {{ appStatus.applicationStatus }} </td>
+		  		</tr>
+		  		{% endif %}
+	  		{% endfor %}
+
+	  	{% endfor %}
+	  {% endif %}
+	</table>
+
+</body>
